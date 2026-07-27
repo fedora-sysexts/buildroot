@@ -99,6 +99,8 @@ jobs:
     needs:
       - build-x86_64
       - build-aarch64
+    permissions:
+      packages: write
     steps:
       - name: Create multi-arch manifest
         if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
@@ -113,8 +115,6 @@ jobs:
         uses: redhat-actions/push-to-registry@94ade333c38ecc0e60e94785125d9a52ca423b37 # v3
         id: push
         if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
-        permissions:
-          packages: write
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
